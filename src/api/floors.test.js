@@ -1,12 +1,8 @@
 import floorsApi from './floors.js';
+import mockFloors from '../../mocks/mockFloors';
 
 describe('Floors api', () => {
   const mockCallback = jest.fn();
-  const mockFloors = [
-    { "id": "1", "name": "Lobby", "story": 1 },
-    { "id": "2", "name": "Second", "story": 2 },
-    { "id": "3", "name": "Third", "story": 3 },
-  ];
   const mockFloorsReturn = [
     { "id": "3", "name": "Third", "story": 3 },
     { "id": "2", "name": "Second", "story": 2 },

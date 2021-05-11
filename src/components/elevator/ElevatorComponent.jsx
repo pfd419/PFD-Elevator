@@ -1,24 +1,27 @@
 import React, { useEffect, useCallback, useRef, useState } from 'react';
 
-import { CONSTANTS } from '../../helpers';
 import { useElevatorContext } from '../../context/ElevatorContext';
 import elevatorApi from '../../api/floors';
 import ElevatorFloorComponent from './ElevatorFloorComponent';
 
+import { CONSTANTS } from '../../helpers';
+
 const ElevatorComponent = () => {
-  const [error, setError] = useState();
-  const [elevatorRun, setElevatorRun] = useState();
-  const currentContext = useRef();
   const [state, dispatch] = useElevatorContext();
   const { floors, toggleState } = state;
  
-  const updateFloors = useCallback(async floorsJson => {
-    await dispatch({ type: 'setFloors', floors: floorsJson });
+  const [error, setError] = useState();
+  const [elevatorRun, setElevatorRun] = useState();
+ 
+  const currentContextRef = useRef();
+  
+  const updateFloorsData = useCallback(async floorsJson => {
+    await dispatch({ type: 'setFloorsData', floors: floorsJson });
   }, [dispatch]);
   
   const startElevator = useCallback(() => {
     setElevatorRun(setInterval(() => {
-      const { floors, currentStory, direction } = currentContext.current;
+      const { floors, currentStory, direction } = currentContextRef.current;
       if (currentStory === 1 || (direction === 'up' && currentStory !== floors.length)) {
         dispatch({ type: 'setCurrentStory', currentStory: currentStory + 1 });
       } else {
@@ -33,7 +36,7 @@ const ElevatorComponent = () => {
 
   // For access to current context in setInterval
   useEffect(() => {
-    currentContext.current = state;
+    currentContextRef.current = state;
   }, [state]);
   // To start elevator when toggle changes on
   useEffect(() => {
@@ -47,23 +50,23 @@ const ElevatorComponent = () => {
       stopElevator();
     }
   }, [stopElevator, toggleState]);
-  // To get floors and start toggle
+  // To get floors data and start toggle
   useEffect(() => {
     const fetchFloors = async () => {
       try {
-        await elevatorApi.getFloors(updateFloors);
+        await elevatorApi.getFloors(updateFloorsData);
       } catch (err) {
         // Handle fetch errors.
         setError(err.message)
       }
     };
     fetchFloors();
-  }, [dispatch, updateFloors]);
+  }, [dispatch, updateFloorsData]);
 
   return (
     <div data-testid="elevator" className="elevator">
-        {error && <div data-testid="elevator-error" className="error">{error}</div>}
-        {floors && floors.map(f => <ElevatorFloorComponent floor={f} key={f.story} />)}
+      {error && <div data-testid="elevator-error" className="error">{error}</div>}
+      {floors && floors.map(f => <ElevatorFloorComponent floor={f} key={f.story} />)}
     </div>
   );
 };

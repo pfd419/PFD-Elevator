@@ -14,6 +14,6 @@ export default {
         .then(async (myJson) => {
             const sortedJson = myJson.floors.sort((a,b) => parseInt(b.story, 10) - parseInt(a.story, 10));
             await callback(sortedJson);
-          });
+        });
     }
 }

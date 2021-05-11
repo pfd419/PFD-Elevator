@@ -1,16 +1,12 @@
 import { initialElevatorState, elevatorReducer } from './ElevatorContext';
+import mockFloors from '../../mocks/mockFloors';
 
-const mockFloors = [
-  { "id": "1", "name": "Lobby", "story": 1 },
-  { "id": "2", "name": "Second", "story": 2 },
-  { "id": "3", "name": "Third", "story": 3 },
-];
 
 describe(`Elevator context`, () => {
-  test('setFloors - intial state', () => {
+  test('setFloorsData - intial state', () => {
     expect(elevatorReducer(undefined, '')).toEqual(initialElevatorState);
     const action = {
-      type: 'setFloors',
+      type: 'setFloorsData',
       floors: mockFloors,
     };
     const expected = {

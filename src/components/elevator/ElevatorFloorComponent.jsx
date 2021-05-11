@@ -24,7 +24,6 @@ const ElevatorFloorComponent = ({ floor }) => {
     }
     return retVal;
   };
-
   const getControlClass = direction => {
     const isSelected = calledStories.some(item => item.story === floor.story && item.direction === direction);
     let retVal = `fa fa-arrow-circle${!isSelected?'-o':''}-${direction}`;

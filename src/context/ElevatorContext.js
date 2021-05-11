@@ -17,7 +17,7 @@ export const initialElevatorState = {
 
 export const elevatorReducer = (state = initialElevatorState, action) => {
   switch (action.type) {
-    case 'setFloors': {
+    case 'setFloorsData': {
       return { ...state, floors: action.floors, currentStory: 1, toggleState: true };
     }
     case 'setDestinationStory': {
@@ -31,7 +31,7 @@ export const elevatorReducer = (state = initialElevatorState, action) => {
       } else if (usableCurrentStory === state.floors.length) {
         direction='down';
       }
-      // TODO: Process desintationStory once specs finalized
+      // TODO: Process destinationStory once specs finalized
       return {
         ...state, 
         currentStory: usableCurrentStory,
@@ -43,7 +43,7 @@ export const elevatorReducer = (state = initialElevatorState, action) => {
       };
     }
     case 'addCalledStory': {
-      // TODO: Process desintationStory once specs finalized
+      // TODO: Process destinationStory once specs finalized
       const alreadyCalled = state.calledStories.some(s => s.story === action.calledStory.story && s.direction === action.calledStory.direction);
       const calledStories = alreadyCalled ? state.calledStories : state.calledStories.concat(action.calledStory);
       return { ...state, calledStories };

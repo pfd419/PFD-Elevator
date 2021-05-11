@@ -3,6 +3,8 @@
 /build/precache-manifest.*.js
 /build/static/
 
+/coverage/
+
 debug.log
 
 node_modules

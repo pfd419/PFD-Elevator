@@ -203,7 +203,7 @@ const ElevatorComponent = () =&gt; {
   const { floors, toggleState } = state;
  
   const updateFloors = useCallback(async floorsJson =&gt; {
-    await dispatch({ type: 'setFloors', floors: floorsJson });
+    await dispatch({ type: 'setFloorsData', floors: floorsJson });
   }, [dispatch]);
   
   const startElevator = useCallback(() =&gt; {

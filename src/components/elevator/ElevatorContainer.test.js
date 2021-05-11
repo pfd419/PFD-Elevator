@@ -3,6 +3,9 @@ import { act, render, cleanup, fireEvent } from '@testing-library/react';
 
 import ElevatorContext, { elevatorInitialState } from '../../context/ElevatorContext';
 import ElevatorContainer from './ElevatorContainer';
+import { CONSTANTS } from '../../helpers'; 
+
+import mockFloors from '../../../mocks/mockFloors';
 
 let elevatorContainerComp;
 const elevatorContextReducer = [
@@ -10,13 +13,9 @@ const elevatorContextReducer = [
   jest.fn(),
 ];
 const props = { };
-const mockFloors = { 
-  floors: [
-    { "id": "1", "name": "Lobby", "story": 1 },
-    { "id": "2", "name": "Second", "story": 2 },
-    { "id": "3", "name": "Third", "story": 3 },
-  ]
-};
+const mockFloorsResponse = { floors: mockFloors };
+const floorCount = mockFloors.length;
+
 jest.setTimeout(30000);
 
 describe('Elevator Container', () => {
@@ -65,7 +64,7 @@ describe('Elevator Container', () => {
   describe('Normal Operation', () => {
     beforeEach(async () => {
       jest.spyOn(global, 'fetch').mockImplementation(() => {
-        return Promise.resolve({json: () => Promise.resolve(mockFloors)});
+        return Promise.resolve({json: () => Promise.resolve(mockFloorsResponse)});
       });
       await act(async () => {
         elevatorContainerComp = render(
@@ -91,13 +90,13 @@ describe('Elevator Container', () => {
     });
     describe('Elevator Block', () => {
       test('Should have basic elements as expected', async () => {
-        await expect(elevatorContainerComp.queryAllByTestId('elevator-story')).toHaveLength(3);
-        await expect(elevatorContainerComp.queryAllByTestId('elevator-car')).toHaveLength(3);
-        await expect(elevatorContainerComp.queryAllByTestId('elevator-floor')).toHaveLength(3);
-        await expect(elevatorContainerComp.queryAllByTestId('elevator-controls')).toHaveLength(3);
-        await expect(elevatorContainerComp.queryAllByTestId('elevator-controls-up')).toHaveLength(3);
+        await expect(elevatorContainerComp.queryAllByTestId('elevator-story')).toHaveLength(floorCount);
+        await expect(elevatorContainerComp.queryAllByTestId('elevator-car')).toHaveLength(floorCount);
+        await expect(elevatorContainerComp.queryAllByTestId('elevator-floor')).toHaveLength(floorCount);
+        await expect(elevatorContainerComp.queryAllByTestId('elevator-controls')).toHaveLength(floorCount);
+        await expect(elevatorContainerComp.queryAllByTestId('elevator-controls-up')).toHaveLength(floorCount);
         await expect(elevatorContainerComp.queryAllByTestId('elevator-controls-up')[0]).toHaveClass('hidden');
-        await expect(elevatorContainerComp.queryAllByTestId('elevator-controls-down')).toHaveLength(3);
+        await expect(elevatorContainerComp.queryAllByTestId('elevator-controls-down')).toHaveLength(floorCount);
         await expect(elevatorContainerComp.queryAllByTestId('elevator-controls-down')[2]).toHaveClass('hidden');
       });
       test('Should have moving car', async () => {
@@ -105,7 +104,7 @@ describe('Elevator Container', () => {
         await expect(elevatorContainerComp.queryAllByTestId('elevator-car')[1]).not.toHaveClass('fa-user');
         await expect(elevatorContainerComp.queryAllByTestId('elevator-car')[2]).toHaveClass('fa-user');
         await act(async () => {
-          await new Promise((r) => setTimeout(r, 3000));
+          await new Promise((r) => setTimeout(r, CONSTANTS.floorTimeoutMS));
         });
         await expect(elevatorContainerComp.queryAllByTestId('elevator-car')[0]).not.toHaveClass('fa-user');
         await expect(elevatorContainerComp.queryAllByTestId('elevator-car')[1]).toHaveClass('fa-user');
@@ -132,12 +131,12 @@ describe('Elevator Container', () => {
         await expect(elevatorContainerComp.queryAllByTestId('elevator-controls-down')[1]).toHaveClass('fa-arrow-circle-down');
         // set delay to assure car passes 2nd floor
         await act(async () => {
-          await new Promise((r) => setTimeout(r, 4000));
+          await new Promise((r) => setTimeout(r, CONSTANTS.floorTimeoutMS));
         });
         await expect(elevatorContainerComp.queryAllByTestId('elevator-controls-up')[1]).toHaveClass('fa-arrow-circle-o-up');
         // set delay to assure car passes 2nd floor 2nd time
         await act(async () => {
-          await new Promise((r) => setTimeout(r, 7000));
+          await new Promise((r) => setTimeout(r, 2 * CONSTANTS.floorTimeoutMS));
         });
         await expect(elevatorContainerComp.queryAllByTestId('elevator-controls-down')[1]).toHaveClass('fa-arrow-circle-o-down');
       });
@@ -158,7 +157,7 @@ describe('Elevator Container', () => {
         await expect(elevatorContainerComp.queryAllByTestId('elevator-car')[2]).toHaveClass('fa-user');
         // set delay to assure car would move if not stopped
         await act(async () => {
-          await new Promise((r) => setTimeout(r, 4000));
+          await new Promise((r) => setTimeout(r, CONSTANTS.floorTimeoutMS));
         });
         await expect(elevatorContainerComp.queryAllByTestId('elevator-car')[0]).not.toHaveClass('fa-user');
         await expect(elevatorContainerComp.queryAllByTestId('elevator-car')[1]).not.toHaveClass('fa-user');
