@@ -1,0 +1,84 @@
+.elevatorContainer {
+  display: flex;
+  font-size: 20px;
+  .elevator {
+    flex: 1;
+    margin: 0px 50px 0px 50px;
+    display: inline-block;
+    border: 1px solid black;
+    border-radius: 5px;
+    .error {
+      height: 100%;
+      width: 100%;
+      line-height: 40px;
+      font-size: 40px;
+      color: red;
+      text-align: center;
+    }
+    .story {  
+      display: flex;
+      height: 50px;
+      line-height: 50px;
+      .car {
+        display: inline;
+        width: 50px;
+        line-height: 50px;
+        font-size: 24px;
+        text-align: center;
+        border: 1px solid transparent;
+        &.at {
+          border-color:black;
+          border-radius: 5px;
+        }
+      }
+      .floor {
+        display: inline;
+        width: 100%;
+        border: 1px solid black;
+        border-radius: 5px;
+        padding-left: 10px;
+        .controls {
+          float: right;
+          font-size: 30px;
+          i {
+            margin: 10px;
+          }
+        }
+      }
+    }
+  }
+  .rightContainer {
+    display: inline-flex;
+    flex-direction: column;
+    flex: 1;
+    margin: 0px 50px 0px 50px;
+    .stats {
+      border: 1px solid black;
+      padding: 50px;
+      border-radius: 5px;
+      text-align: center;
+      flex: 1;
+      background: 
+         linear-gradient(to top left,
+             rgba(0,0,0,0) 0%,
+             rgba(0,0,0,0) calc(50% - 0.8px),
+             rgba(0,0,0,1) 50%,
+             rgba(0,0,0,0) calc(50% + 0.8px),
+             rgba(0,0,0,0) 100%),
+         linear-gradient(to top right,
+             rgba(0,0,0,0) 0%,
+             rgba(0,0,0,0) calc(50% - 0.8px),
+             rgba(0,0,0,1) 50%,
+             rgba(0,0,0,0) calc(50% + 0.8px),
+             rgba(0,0,0,0) 100%);
+    }
+    .switch {
+      padding-top: 50px; 
+    }
+
+  }
+}
+
+.hidden {
+  visibility: hidden;
+}

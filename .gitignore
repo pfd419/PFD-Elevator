@@ -1,0 +1,8 @@
+/build/asset-manifest.json
+/build/index.html
+/build/precache-manifest.*.js
+/build/static/
+
+debug.log
+
+node_modules

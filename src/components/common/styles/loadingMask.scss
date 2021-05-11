@@ -1,0 +1,31 @@
+.loader {
+  z-index: -100;
+  opacity: 50%;
+  background-color: grey;
+  position: absolute;
+  display: flex;
+  align-items: center;
+  height: calc(100vh - 100px);
+  width: calc(100vw - 20px);
+  justify-content: center;
+  margin: 0px;
+}
+
+.loader-wheel {
+  animation: spin 1s infinite linear;
+  border: 2px solid rgba(30, 30, 30, 0.5);
+  border-left: 4px solid black;
+  border-radius: 50%;
+  height: 150px;
+  margin-bottom: 10px;
+  width: 150px;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
